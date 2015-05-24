@@ -92,17 +92,10 @@ module.exports = function (opts) {
       new webpack.NoErrorsPlugin()
     ])
 
-    // add react-hot as module loader
-    config.module.loaders[0].loaders.unshift('react-hot')
-
     config.module.loaders.push(
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader!postcss-loader'
-      },
-      {
-        test: /\.styl$/,
-        loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
       },
       {
         test: /\.less$/,
@@ -137,10 +130,6 @@ module.exports = function (opts) {
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
-      },
-      {
-        test: /\.styl$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!stylus-loader')
       },
       {
         test: /\.less/,

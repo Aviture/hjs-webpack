@@ -32,10 +32,8 @@
     "postcss-loader": "*",
     "react-hot-loader": "*",
     "style-loader": "*",
-    "stylus-loader": "*",
     "url-loader": "*",
-    "webpack-dev-server": "*",
-    "yeticss": "*"
+    "webpack-dev-server": "*"
   },
   "repository": {
     "type": "git",
