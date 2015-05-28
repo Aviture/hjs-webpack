@@ -100,6 +100,10 @@ module.exports = function (opts) {
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader!postcss-loader!less-loader'
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader'
       }
     )
 
@@ -134,10 +138,6 @@ module.exports = function (opts) {
       {
         test: /\.less/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader')
-      },
-      {
-        test: /\.hbs$/,
-        loader: 'handlebars-loader'
       }
     )
   }
