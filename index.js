@@ -64,6 +64,8 @@ module.exports = function (opts) {
     config.plugins.push(new webpack.DefinePlugin(spec.define))
   }
 
+  config.module.unknownContextCritical = false
+
   // dev specific stuff
   if (spec.isDev) {
     // debugging option
@@ -142,6 +144,14 @@ module.exports = function (opts) {
       {
         test: /\.less/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader')
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader'
+      },
+      {
+        test: /\.(png|gif)$/,
+        loader: 'file-loader'
       }
     )
   }
