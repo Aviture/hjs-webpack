@@ -104,6 +104,10 @@ module.exports = function (opts) {
       {
         test: /\.hbs$/,
         loader: 'handlebars-loader'
+      },
+      {
+        test: /\.(png|gif)$/,
+        loader: 'file-loader'
       }
     )
 
