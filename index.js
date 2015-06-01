@@ -2,44 +2,44 @@ var path = require('path')
 var webpack = require('webpack')
 var defaults = require('lodash.defaults')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var getBaseConfig = require('./lib/base-config')
-var getPackage = require('./lib/get-package')
+var getbaseconfig = require('./lib/base-config')
+var getpackage = require('./lib/get-package')
 
 module.exports = function (opts) {
   checkRequired(opts)
-  var outputFolder = path.resolve(opts.out)
+  var outputfolder = path.resolve(opts.out)
 
   // add in our defaults
   var spec = defaults(opts, {
     entry: path.resolve(opts.in),
     output: defaults(opts.output || {}, {
-      path: outputFolder + '/',
+      path: outputfolder + '/',
       filename: null,
-      cssFilename: null,
+      cssfilename: null,
       hash: false,
-      publicPath: '/'
+      publicpath: '/'
     }),
-    configFile: null,
-    isDev: true,
+    configfile: null,
+    isdev: true,
     package: null,
     replace: null,
     port: 3000,
     hostname: 'localhost',
     html: true,
-    urlLoaderLimit: 10000
+    urlloaderlimit: 10000
   })
 
-  spec.package = getPackage(spec.package)
+  spec.package = getpackage(spec.package)
 
   if (!spec.output.filename) {
-    spec.output.filename = spec.isDev ? 'app.js' : buildFilename(spec.package, spec.output.hash, 'js')
+    spec.output.filename = spec.isdev ? '[name].js' : buildfilename(spec.package, spec.output.hash, 'js')
   }
 
-  if (!spec.output.cssFilename) {
-    spec.output.cssFilename = spec.isDev ? 'app.css' : buildFilename(spec.package, spec.output.hash, 'css')
+  if (!spec.output.cssfilename) {
+    spec.output.cssfilename = spec.isdev ? 'app.css' : buildfilename(spec.package, spec.output.hash, 'css')
   }
 
-  var config = getBaseConfig(spec)
+  var config = getbaseconfig(spec)
 
   // re-attach original spec items so they can be accessed from dev-server script
   config.spec = spec
@@ -49,35 +49,35 @@ module.exports = function (opts) {
     for (var item in spec.replace) {
       // allow for simple strings
       if (typeof item === 'string') {
-        var regex = new RegExp('^' + item + '$')
+        var regex = new regexp('^' + item + '$')
       }
-      var newResource = spec.replace[item]
-      if (typeof newResource === 'string') {
-        newResource = path.resolve(newResource)
+      var newresource = spec.replace[item]
+      if (typeof newresource === 'string') {
+        newresource = path.resolve(newresource)
       }
-      config.plugins.push(new webpack.NormalModuleReplacementPlugin(regex, newResource))
+      config.plugins.push(new webpack.normalmodulereplacementplugin(regex, newresource))
     }
   }
 
   // check for any module definitions
   if (spec.define) {
-    config.plugins.push(new webpack.DefinePlugin(spec.define))
+    config.plugins.push(new webpack.defineplugin(spec.define))
   }
 
-  config.module.unknownContextCritical = false
+  config.module.unknowncontextcritical = false
 
   // dev specific stuff
-  if (spec.isDev) {
+  if (spec.isdev) {
     // debugging option
     config.devtool = 'eval'
 
     // add dev server and hotloading clientside code
-    config.entry.unshift(
+    config.entry.app.unshift(
       'webpack-dev-server/client?http://' + spec.hostname + ':' + spec.port,
       'webpack/hot/only-dev-server'
     )
 
-    config.devServer = {
+    config.devserver = {
       port: spec.port,
       info: false,
       historyApiFallback: true,
